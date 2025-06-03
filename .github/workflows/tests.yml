@@ -1,0 +1,38 @@
+Here is the GitHub Actions workflow that meets the requirements:
+```
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  playwright-tests:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Playwright
+        uses: playwright/actions/setup-playwright@v2
+        with:
+          browsers: chromium, firefox, webkit
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+        working-directory: tests
+
+      - name: Generate reports
+        run: npm run report
+        working-directory: tests
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: tests/reports
+```
+Note that this workflow assumes you have a `package.json` file with scripts for running tests and generating reports. You may need to adjust the workflow to fit your specific use case.
